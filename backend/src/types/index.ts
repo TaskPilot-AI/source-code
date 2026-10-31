@@ -96,7 +96,7 @@ export const EmployeeBaseSchema = z.object({
   location: z.string().optional().nullable(),
   createdAt: z.date().optional(),
   updatedAt: z.date().optional(),
-  employerId: z.string().uuid("Invalid employer ID format"),
+  employerId: z.string().min(1, "Employer ID is required"),
   githubUsername: z.string().nullable(),
 });
 
