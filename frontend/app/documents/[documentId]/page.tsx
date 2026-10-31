@@ -35,7 +35,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { useSession } from "next-auth/react";
+import { useSession } from "@/lib/auth-client";
 import { exportToDocx } from "@/components/docx-export";
 import MermaidToImage from "@/components/mermaid-to-image";
 // Add this after the other imports

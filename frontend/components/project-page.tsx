@@ -23,7 +23,7 @@ import ReactMarkdown from "react-markdown"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog"
 import jsPDF from "jspdf"
 import { useRouter } from "next/navigation"
-import { useSession } from "next-auth/react"
+import { useSession } from "@/lib/auth-client";
 
 interface Employee {
   id: string

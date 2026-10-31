@@ -76,10 +76,8 @@ function SettingsFormContent() {
   const [isSaving, setIsSaving] = useState(false);
   const { theme, setTheme } = useTheme();
   const [reduceAnimations, setReduceAnimations] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const [userData, setUserData] = useState<any>(null);
-  const [activeTab, setActiveTab] = useState(tabParam || "subscription");
-  const [showCancelDialog, setShowCancelDialog] = useState(false);
+  const [activeTab, setActiveTab] = useState(tabParam || "profile");
 
   // Ensure theme component is mounted before accessing theme
   useEffect(() => {
@@ -120,51 +118,6 @@ function SettingsFormContent() {
     };
     fetchUserData();
   }, [form]);
-
-  const handleCancelSubscription = () => {
-    setShowCancelDialog(true);
-  };
-
-  const cancelSubscription = async () => {
-    setShowCancelDialog(false);
-    try {
-      const response = await fetch(`${API_URL}/payments/cancel-subscription`, {
-        method: "POST",
-        body: JSON.stringify({
-          subscriptionId: userData.subscription.id,
-        }),
-        headers: {
-          "x-api-key": "thisisasdca",
-          "Content-Type": "application/json",
-          Authorization: `Authorization ${localStorage.getItem("accessToken")}`,
-        },
-      });
-      const result = await response.json();
-      if (result.success) {
-        toast({
-          title: "Subscription Cancelled",
-          description: "Your subscription has been cancelled successfully.",
-        });
-        setUserData((prevData: any) => ({
-          ...prevData,
-          subscription: null,
-        }));
-      } else {
-        toast({
-          title: "Error",
-          description: result.message || "Failed to cancel subscription.",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      console.error("Error cancelling subscription:", error);
-      toast({
-        title: "Error",
-        description: "Failed to cancel subscription. Please try again.",
-        variant: "destructive",
-      });
-    }
-  };
 
   function onSubmit(data: ProfileFormValues) {
     setIsSaving(true);
@@ -209,20 +162,7 @@ function SettingsFormContent() {
     }).format(date);
   };
 
-  const handleChangePlan = () => {
-    if (
-      userData?.subscription.plan.name !== "Professional" ||
-      userData?.subscription.status !== "active"
-    ) {
-      router.push("/subscribe");
-    } else {
-      toast({
-        title: "You already have a pro subscription",
-        description: "You can only have one active subscription at a time.",
-        variant: "default",
-      });
-    }
-  };
+
 
   return (
     <div className="container max-w-6xl mx-auto px-4">
@@ -625,35 +565,6 @@ function SettingsFormContent() {
           )}
         </div>
       </div>
-      {/* Cancel Subscription Confirmation Dialog */}
-      <Dialog open={showCancelDialog} onOpenChange={setShowCancelDialog}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Cancel Subscription</DialogTitle>
-            <DialogDescription>
-              Are you sure you want to cancel your subscription? You will lose
-              access to premium features at the end of your current billing
-              period.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter className="flex flex-col sm:flex-row sm:justify-between sm:space-x-2">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setShowCancelDialog(false)}
-            >
-              No, keep my subscription
-            </Button>
-            <Button
-              type="button"
-              variant="destructive"
-              onClick={cancelSubscription}
-            >
-              Yes, cancel subscription
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }

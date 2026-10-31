@@ -43,25 +43,22 @@ Taskpilot Labs is an intelligent project management platform that streamlines th
 
 ## 🛠️ Tech Stack
 
-- **Backend**: Node.js, Express.js, TypeScript
-- **Frontend**: Next.js, React
-- **Authentication**: JWT, NextAuth.js
+- **Runtime & Package Manager**: Bun
+- **Backend**: Express.js, TypeScript, Prisma ORM, PostgreSQL
+- **Frontend**: Next.js 16 (App Router), React 18, TailwindCSS
+- **Authentication**: Better Auth (In-house secure credentials with sessions & HTTP-only cookies)
 - **AI Integration**: Google Gemini API
 - **Search Integration**: SearXNG
-- **Payment Processing**: Razorpay
 - **Validation**: Zod
 
-## 🔧 Installation
+## 🔧 Quickstart (Zero-Setup)
 
 ### Prerequisites
 
-- Node.js (v16 or higher)
-- npm or yarn
-- Razorpay account (for payments)
-- Google Cloud account (for OAuth)
-- Gemini API key (for AI features)
+- Docker and Docker Compose installed on your system
+- (Optional for host development) [Bun](https://bun.sh/) (v1.3+)
 
-### Setup
+### Running with Docker Compose (Recommended)
 
 1. **Clone the repository**
    ```bash
@@ -69,49 +66,28 @@ Taskpilot Labs is an intelligent project management platform that streamlines th
    cd source-code
    ```
 
-2. **Configure environment variables**
-   
-   Create a `.env` file in the root directory with the following variables:
-   
-   ```env
-   # API Configuration
-   API_KEY=your_api_key_here
-   
-   # JWT Secrets
-   JWT_SECRET=your_jwt_secret_here
-   JWT_REFRESH_SECRET=your_jwt_refresh_secret_here
-   
-   # AI Integration
-   GEMINI_API_KEY=your_gemini_api_key_here
-   
-   # Search Integration
-   SEARCH_API_BASE=your_search_api_base_url
-   SEARXNG_API_BASE=your_searxng_api_base_url
-   
-   # NextAuth Configuration
-   NEXTAUTH_SECRET=your_nextauth_secret_here
-   
-   # Google OAuth
-   GOOGLE_CLIENT_ID=your_google_client_id
-   GOOGLE_CLIENT_SECRET=your_google_client_secret
+2. **Setup environment variables**
+   ```bash
+   cp .env.example .env
    ```
 
-3. **Run the application**
+3. **Launch the entire stack**
    ```bash
    docker compose up --build
    ```
 
 4. **Access the application**
-   
-   Open your browser and navigate to `http://localhost:3000` for nexus go to `http://localhost:3001`
+   - **Frontend App**: [http://localhost:3000](http://localhost:3000)
+   - **Nexus Workspace**: [http://localhost:3001](http://localhost:3001)
+   - **Backend API**: [http://localhost:8000](http://localhost:8000)
 
 ## 📡 API Documentation
 
-The API is built using Express.js and TypeScript with JWT authentication. All routes are relative to the base URL: `http://localhost:8000/api/v1`
+The API is built using Express.js and TypeScript. All routes are relative to the base URL: `http://localhost:8000/api/v1`
 
 ### Key Endpoints
 
-- **Authentication**: `/api/v1/admins/login`, `/api/v1/employees/login`
+- **Authentication**: `/api/auth/*` (Better Auth handlers: `/sign-up/email`, `/sign-in/email`, `/get-session`, `/sign-out`)
 - **Projects**: `/api/v1/projects` (CRUD operations, AI generation)
 - **Tasks**: `/api/v1/tasks` (CRUD operations)
 - **Employees**: `/api/v1/employees` (Management and assignments)
@@ -120,18 +96,10 @@ The API is built using Express.js and TypeScript with JWT authentication. All ro
 
 ## 🔐 Authentication
 
-- Admin and employee authentication using JWT tokens
-- Access tokens for API requests
-- Refresh tokens for token renewal
-- Google OAuth integration for quick sign-in
-
-## 💳 Subscription & Payments
-
-Integrated with Razorpay for:
-- Subscription order creation
-- Recurring billing management
-- Webhook processing for payment events
-- Subscription cancellation
+- Secure, in-house credentials authentication powered by **Better Auth**
+- Scrypt password hashing
+- Session tokens with HTTP-only, SameSite cookies
+- Automatic database sync between Better Auth users and TaskPilot Admin records
 
 ## 🤖 AI Features
 
@@ -156,10 +124,6 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## 📄 License
 
 This project is licensed under the [MIT License](./LICENSE).
-
-## 📞 Support
-
-For issues and questions, please open an issue on GitHub or contact the development team.
 
 ---
 

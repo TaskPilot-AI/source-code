@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
+import AuthModal from "@/components/auth-model";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   CheckCircle2,
@@ -42,7 +43,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { signIn, useSession } from "next-auth/react";
+import { useSession } from "@/lib/auth-client";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 
@@ -53,23 +54,15 @@ export default function LandingPage() {
   const [isYearly, setIsYearly] = useState(true);
   const { data: session } = useSession();
   const [isProcessing, setIsProcessing] = useState(false);
+  const router = useRouter();
+  const [authModalOpen, setAuthModalOpen] = useState(false);
 
-  const proPlan = {
-    id: "pro",
-    name: "Professional",
-    description: "Everything you need for your professional workflow",
-    monthlyPrice: 79,
-    yearlyPrice: 790,
-    features: [
-      "Unlimited team members",
-      "Unlimited projects",
-      "Unlimited documents",
-      "Everything in Professional",
-      "Dedicated account manager",
-      "24/7 phone & email support",
-      "Advanced analytics & reporting",
-      "Unlimited research",
-    ],
+  const handleAuthAction = () => {
+    if (session) {
+      router.push("/dashboard");
+    } else {
+      setAuthModalOpen(true);
+    }
   };
 
   useEffect(() => {
@@ -85,9 +78,9 @@ export default function LandingPage() {
       localStorage.setItem("adminId", session?.user.id as string);
       localStorage.setItem("adminEmail", session?.user.email as string);
       localStorage.setItem("adminName", session?.user.name as string);
-      redirect("/dashboard");
+      router.push("/dashboard");
     }
-  }, [session]);
+  }, [session, router]);
 
   // Animation variants
   const fadeInUp = {
@@ -181,12 +174,10 @@ export default function LandingPage() {
             <div className="hidden md:flex items-center gap-2">
               <Button
                 className="rounded-full bg-gradient-to-r from-blue-600 to-blue-500 shadow-md hover:shadow-lg transition-all"
-                onClick={() => {
-                  signIn("google");
-                }}
+                onClick={() => handleAuthAction()}
                 disabled={isProcessing}
               >
-                Get Started Free
+                {session ? "Dashboard" : "Get Started Free"}
               </Button>
             </div>
 
@@ -269,11 +260,12 @@ export default function LandingPage() {
                     <Button
                       className="w-full rounded-full bg-gradient-to-r from-blue-600 to-blue-500"
                       onClick={() => {
-                        signIn("google");
+                        setMobileMenuOpen(false);
+                        handleAuthAction();
                       }}
                       disabled={isProcessing}
                     >
-                      Get Started Free
+                      {session ? "Dashboard" : "Get Started Free"}
                     </Button>
                   </div>
                 </div>
@@ -355,12 +347,10 @@ export default function LandingPage() {
                 <Button
                   size="lg"
                   className="rounded-full bg-gradient-to-r from-blue-600 to-blue-500 shadow-md hover:shadow-lg w-full sm:w-auto text-base gap-2"
-                  onClick={() => {
-                    signIn("google");
-                  }}
+                  onClick={() => handleAuthAction()}
                   disabled={isProcessing}
                 >
-                  Get Started Free
+                  {session ? "Go to Dashboard" : "Get Started Free"}
                   <ArrowRight className="h-4 w-4" />
                 </Button>
               </motion.div>
@@ -995,11 +985,9 @@ export default function LandingPage() {
                 size="lg"
                 variant="secondary"
                 className="text-lg gap-2"
-                onClick={() => {
-                  signIn("google");
-                }}
+                onClick={() => handleAuthAction()}
               >
-                Start Your Journey
+                {session ? "Go to Dashboard" : "Start Your Journey"}
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </motion.div>
@@ -1236,6 +1224,12 @@ export default function LandingPage() {
           </div>
         </div>
       </footer>
+
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        onSuccess={() => router.push("/dashboard")}
+      />
     </div>
   );
 }

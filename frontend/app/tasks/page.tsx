@@ -33,7 +33,7 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { API_URL } from "@/app/lib/server-config";
-import { useSession } from "next-auth/react";
+import { useSession } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { TaskDialog, TaskStatus, TaskPriority } from "@/components/task-dialog";
 import { TaskActionsMenu } from "@/components/task-actions-menu";

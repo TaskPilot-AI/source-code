@@ -63,8 +63,9 @@ export const AdminSchema = z.object({
   id: z.string().uuid().optional(), // Optional for creation
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email format"),
+  password: z.string().optional(),
   createdAt: z.date().optional(),
-  accessToken: z.string(),
+  accessToken: z.string().optional().default(""),
 });
 
 export const ProjectBaseSchema = z.object({

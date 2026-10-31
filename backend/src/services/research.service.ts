@@ -18,7 +18,7 @@ interface SearchResult {
 
 const llm = new ChatGoogleGenerativeAI({
   model: "gemini-2.0-flash-001",
-  apiKey: process.env.GEMINI_API_KEY,
+  apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || "dummy-key",
   temperature: 1,
 });
 

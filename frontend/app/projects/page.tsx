@@ -52,7 +52,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { API_URL } from "@/app/lib/server-config";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { useSession } from "@/lib/auth-client";
 import { toast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 

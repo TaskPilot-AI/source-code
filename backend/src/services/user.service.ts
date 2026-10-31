@@ -1,12 +1,13 @@
 import { PrismaClient } from "@prisma/client";
-import { compare } from "../utils/scrypt";
+import { compare, hash } from "../utils/scrypt";
 import { PricingPlans } from "../utils/plans";
 
 const prisma = new PrismaClient();
 export const createAdmin = async (
   name: string,
   email: string,
-  accessToken: string
+  accessToken: string = "",
+  password?: string
 ) => {
   // Check if user exists
   const existingAdmin = await prisma.admin.findUnique({
@@ -14,6 +15,13 @@ export const createAdmin = async (
   });
 
   if (existingAdmin) {
+    if (password && (!existingAdmin.password || existingAdmin.password === "")) {
+      const hashedPassword = await hash(password);
+      await prisma.admin.update({
+        where: { id: existingAdmin.id },
+        data: { password: hashedPassword },
+      });
+    }
     // Remove password from returned admin object
     const { password: _, ...adminWithoutPassword } = existingAdmin;
 
@@ -31,6 +39,8 @@ export const createAdmin = async (
   const endDate = new Date(startDate);
   endDate.setFullYear(endDate.getFullYear() + 100); // Very long expiration for free plan
 
+  const hashedPassword = password ? await hash(password) : "";
+
   try {
     // Use a transaction to ensure atomicity
     const result = await prisma.$transaction(async (tx: any) => {
@@ -39,6 +49,7 @@ export const createAdmin = async (
         data: {
           name,
           email,
+          password: hashedPassword,
           accessToken,
           role: "admin",
           remainginEmployeeLimit: freePlan.employeeLimit, // Fixed typo
@@ -56,8 +67,6 @@ export const createAdmin = async (
           status: "active",
           startDate,
           endDate,
-          razorpayOrderId: null,
-          razorpayPaymentId: null,
           adminId: admin.id,
         },
       });
@@ -107,6 +116,10 @@ export const login = async (email: string, password: string) => {
     throw new Error("Invalid credentials");
   }
 
+  if (!user.password || user.password === "") {
+    throw new Error("Invalid credentials");
+  }
+
   const passwordMatch = await compare(password, user.password);
 
   if (!passwordMatch) {
@@ -145,8 +158,6 @@ export const findUserById = async (id: string) => {
       status: true,
       startDate: true,
       endDate: true,
-      razorpayOrderId: true,
-      razorpayPaymentId: true,
     },
   });
 

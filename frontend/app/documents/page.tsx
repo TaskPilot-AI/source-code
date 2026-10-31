@@ -32,7 +32,7 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { API_URL } from "@/app/lib/server-config";
 import { formatISODate } from "@/app/lib/date_formater";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { useSession } from "@/lib/auth-client";
 import { toast } from "@/components/ui/use-toast"; // Assuming you have a toast component for error messages
 
 interface Document {

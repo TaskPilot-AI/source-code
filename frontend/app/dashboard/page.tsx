@@ -34,7 +34,7 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { API_URL } from "../lib/server-config";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { useSession } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 
 interface ProjectData {

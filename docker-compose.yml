@@ -21,11 +21,14 @@ services:
       - "3000:3000"
     environment:
       - API_KEY=${API_KEY}
-      - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
-      - GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
-      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
-      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
-      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - DATABASE_URL=postgresql://task_pilot_db_user:task_pilot_db_password@task-pilot-db:5432/task_pilot_db
+      - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET:-super-secret-better-auth-key-32charsmin}
+      - BETTER_AUTH_URL=http://localhost:3000
+      - INTERNAL_API_URL=http://backend:8000/api/v1
+      - NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
+    depends_on:
+      task-pilot-db:
+        condition: service_healthy
     networks:
       - app-network
   
@@ -35,12 +38,17 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3001:3000"
+    environment:
+      - INTERNAL_API_URL=http://backend:8000/api/v1
+      - NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
     networks:
       - app-network
   
   task-pilot-db:
     image: postgres:15-alpine
     container_name: task-pilot-db
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_DB: task_pilot_db
       POSTGRES_USER: task_pilot_db_user
@@ -50,8 +58,8 @@ services:
     networks:
       - app-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U task_pilot_db_user -d task-pilot-db"]
-      interval: 10s
+      test: ["CMD-SHELL", "pg_isready -U task_pilot_db_user -d task_pilot_db"]
+      interval: 5s
       timeout: 5s
       retries: 5
     restart: unless-stopped
@@ -60,8 +68,8 @@ services:
     build: 
       context: ./backend
       dockerfile: Dockerfile
-    # ports:
-    #   - "8000:8000"
+    ports:
+      - "8000:8000"
     environment:
       - PORT=8000
       - DATABASE_URL=postgresql://task_pilot_db_user:task_pilot_db_password@task-pilot-db:5432/task_pilot_db
@@ -70,12 +78,12 @@ services:
       - SEARCH_API_BASE=${SEARCH_API_BASE}
       - SEARXNG_API_BASE=${SEARXNG_API_BASE}
       - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET}
-      - SEARXNG_API_BASE=${SEARXNG_API_BASE}
       - GEMINI_API_KEY=${GEMINI_API_KEY}
-      - SEARCH_API_BASE=${SEARCH_API_BASE}
-      - RAZORPAY_KEY_SECRET=${RAZORPAY_KEY_SECRET}
-      - RAZORPAY_KEY_ID=${RAZORPAY_KEY_ID}
-    entrypoint: ["sh", "-c", "bun run dev"]
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+    depends_on:
+      task-pilot-db:
+        condition: service_healthy
+    entrypoint: ["sh", "-c", "bunx prisma db push && bun run dev"]
     networks:
       - app-network
 

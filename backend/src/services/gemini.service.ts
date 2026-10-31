@@ -5,9 +5,9 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // Get API key from environment variables
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-if (!GEMINI_API_KEY) {
-  throw new Error("GEMINI_API_KEY is not defined in environment variables");
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || "dummy-key";
+if (!process.env.GEMINI_API_KEY && !process.env.GOOGLE_API_KEY) {
+  console.warn("⚠️ Warning: GEMINI_API_KEY is not defined in environment variables. Gemini AI features will be disabled until key is set.");
 }
 
 // Initialize the Google GenAI client

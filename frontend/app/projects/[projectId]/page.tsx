@@ -52,7 +52,7 @@ import {
 } from "@/components/ui/sheet";
 import jsPDF from "jspdf";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { useSession } from "@/lib/auth-client";
 import { Separator } from "@/components/ui/separator";
 import {
   Tooltip,

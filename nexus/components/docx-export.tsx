@@ -359,16 +359,9 @@ export const exportToDocx = async (
       ],
     });
 
-    // Generate the document buffer
-    const buffer = await Packer.toBuffer(doc);
-
-    // Save the document
-    saveAs(
-      new Blob([buffer], {
-        type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      }),
-      `${docData.name}.docx`
-    );
+    // Generate and save the document
+    const blob = await Packer.toBlob(doc);
+    saveAs(blob, `${docData.name}.docx`);
 
     return true;
   } catch (err) {

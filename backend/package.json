@@ -26,7 +26,6 @@
     "@tavily/core": "^0.3.7",
     "@types/cookie-parser": "^1.4.8",
     "@types/express": "^5.0.0",
-    "@types/stripe": "^8.0.416",
     "body-parser": "^2.2.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
@@ -39,9 +38,7 @@
     "octokit": "^4.1.2",
     "prisma": "^6.4.1",
     "raw-body": "^3.0.0",
-    "razorpay": "^2.9.6",
     "resend": "^4.1.2",
-    "stripe": "^18.0.0",
     "typescript": "^5.8.2",
     "zod": "^3.24.2"
   }

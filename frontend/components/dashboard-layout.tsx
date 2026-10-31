@@ -27,8 +27,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { toast } from "@/hooks/use-toast";
-import { signOut } from "next-auth/react";
+import { signOut } from "@/lib/auth-client";
 import "react-circular-progressbar/dist/styles.css";
 import { useEffect, useState } from "react";
 

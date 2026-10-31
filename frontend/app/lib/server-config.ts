@@ -4,8 +4,11 @@ dotenv.config();
 // export const API_URL =
 //   process.env.NEXT_PUBLIC_API_URL || "https://aws.taskpilot.xyz/api/v1";
 
-export const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
+const isServer = typeof window === "undefined";
+
+export const API_URL = isServer
+  ? (process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL || "http://backend:8000/api/v1")
+  : (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1");
 
 
 export const getAuthHeaders = () => {
@@ -15,7 +18,9 @@ export const getAuthHeaders = () => {
   };
 
   const token =
-    typeof window !== "undefined" ? localStorage.getItem("authToken") : null;
+    typeof window !== "undefined"
+      ? localStorage.getItem("accessToken") || localStorage.getItem("authToken")
+      : null;
   if (token) {
     headers["Authorization"] = `Bearer ${token}`;
   }

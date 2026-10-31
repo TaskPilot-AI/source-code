@@ -37,7 +37,8 @@ export const createAdminFun = async (
     const admin = await createAdmin(
       validatedData.name,
       validatedData.email,
-      validatedData.accessToken
+      validatedData.accessToken || "",
+      validatedData.password
     );
 
     // Generate tokens

@@ -2,7 +2,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { SettingsForm } from "./settings-form";
-import { useSession } from "next-auth/react";
+import { useSession } from "@/lib/auth-client";
 import { Suspense } from "react";
 
 export default function SettingsPage() {

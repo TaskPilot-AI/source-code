@@ -6,7 +6,6 @@ import projectRouter from "./v1/project.route";
 import userRouter from "./v1/user.route";
 import { authenticate } from "../middlewares/auth_middleware";
 import statusRouter from "./v1/status.route";
-import paymentRouter from "./v1/payment.route";
 import recordingsRouter from "./v1/recordings.route";
 
 const router = Router();
@@ -17,7 +16,6 @@ router.use("/employees", authenticate, employeeRouter);
 router.use("/projects", authenticate, projectRouter);
 router.use("/admins", authenticate, userRouter);
 router.use("/status", authenticate, statusRouter);
-router.use("/payments", paymentRouter);
 router.use("/recordings", authenticate, recordingsRouter);
 
 export default router;

@@ -530,28 +530,7 @@ export default function PrivacyPolicyPage() {
                   </span>
                 </span>
               </div>
-              <div style={{ lineHeight: 1.5 }} className="mt-4">
-                <span style={{ fontSize: "15px", color: "rgb(89, 89, 89)" }}>
-                  <span data-custom-class="body_text">
-                    <strong>Payment Data.</strong> We may collect data necessary
-                    to process your payment if you choose to make purchases,
-                    such as your payment instrument number, and the security
-                    code associated with your payment instrument. All payment
-                    data is handled and stored by Razorpay. You may find their
-                    privacy notice link(s) here:{" "}
-                    <span style={{ color: "rgb(0, 58, 250)" }}>
-                      <a
-                        href="https://razorpay.com/privacy/"
-                        target="_blank"
-                        data-custom-class="link"
-                      >
-                        https://razorpay.com/privacy/
-                      </a>
-                    </span>
-                    .
-                  </span>
-                </span>
-              </div>
+
               <div style={{ lineHeight: 1.5 }} className="mt-4">
                 <span style={{ fontSize: "15px", color: "rgb(89, 89, 89)" }}>
                   <span data-custom-class="body_text">
