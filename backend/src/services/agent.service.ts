@@ -1,7 +1,18 @@
 import type { AgentRequest } from "../types";
 
-// const localUrl = "http://agent-service-app:5000/";
-const localUrl = "http://localhost:5001/";
+const getAgentServiceUrl = () => {
+  let url =
+    process.env.AGENT_SERVICE_URL ||
+    (process.env.DATABASE_URL?.includes("task-pilot-db")
+      ? "http://agents-service:5000/"
+      : "http://localhost:5000/");
+  if (!url.endsWith("/")) {
+    url += "/";
+  }
+  return url;
+};
+
+const localUrl = getAgentServiceUrl();
 interface Employee {
   name: string;
   designation: string;

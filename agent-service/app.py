@@ -30,6 +30,11 @@ def handle_bad_request(error):
     return jsonify({"error": "Bad request, please check the data"}), 400
 
 
+@app.errorhandler(Exception)
+def handle_exception(e):
+    return jsonify({"error": str(e)}), 500
+
+
 @app.route("/")
 def home():
     return jsonify({"message": "Welcome to the AgentX Service!"})

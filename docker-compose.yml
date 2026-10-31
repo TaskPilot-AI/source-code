@@ -80,9 +80,12 @@ services:
       - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET}
       - GEMINI_API_KEY=${GEMINI_API_KEY}
       - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - AGENT_SERVICE_URL=http://agents-service:5000/
     depends_on:
       task-pilot-db:
         condition: service_healthy
+      agents-service:
+        condition: service_started
     entrypoint: ["sh", "-c", "bunx prisma db push && bun run dev"]
     networks:
       - app-network
