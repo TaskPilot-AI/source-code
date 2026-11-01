@@ -19,7 +19,7 @@ interface Employee {
   skillset: string[];
 }
 export const pipeline = async (input: AgentRequest) => {
-  const response = await fetch(`${localUrl}pipeline`, {
+  const response = await fetch(`${localUrl}api/pipeline`, {
     method: "POST",
     redirect: "follow",
     headers: {
@@ -45,7 +45,7 @@ export const checkAgentServer = async () => {
 };
 
 export const initProject = async (project_name: string, definition: string) => {
-  const response = await fetch(`${localUrl}init_project`, {
+  const response = await fetch(`${localUrl}api/init_project`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -60,7 +60,7 @@ export const initProject = async (project_name: string, definition: string) => {
 };
 
 export const identifyKeyFeatures = async (definition: string) => {
-  const response = await fetch(`${localUrl}identify_key_features`, {
+  const response = await fetch(`${localUrl}api/identify_key_features`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -78,7 +78,7 @@ export const generateDocument = async (
   definition: string,
   key_features: string[],
 ) => {
-  const response = await fetch(`${localUrl}generate_docs`, {
+  const response = await fetch(`${localUrl}api/generate_docs`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -101,7 +101,7 @@ export const generateTasks = async (
   development_type: string,
   complexity: string,
 ) => {
-  const response = await fetch(`${localUrl}create_tasks`, {
+  const response = await fetch(`${localUrl}api/create_tasks`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

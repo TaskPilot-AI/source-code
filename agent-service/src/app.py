@@ -7,7 +7,7 @@ from src.router import router
 app = FastAPI(
     title="AgentX Service",
     version="1.0.0",
-    doc_url=None,
+    docs_url=None,
     redoc_url=None
 )
 

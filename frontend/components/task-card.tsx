@@ -10,7 +10,7 @@ interface TaskCardProps {
     id: string
     name: string
     description: string
-    due: string
+    due: string | null
     status: string
     priority: string
     tag: string
@@ -19,7 +19,7 @@ interface TaskCardProps {
   getPriorityColor: (priority: string) => string
   getStatusColor: (status: string) => string
   formatDate: (dateString: string) => string
-  getDaysRemaining: (dueDate: string) => number
+  getDaysRemaining: (dueDate: string | null) => number | null
   onMarkComplete: (taskId: string) => void
   onViewDetails: (taskId: string) => void
 }
@@ -48,14 +48,16 @@ export default function TaskCard({
             {task.status.replace(/_/g, " ")}
           </div>
           <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-            <CalendarIcon className="mr-2 h-4 w-4" /> Due: {formatDate(task.due)}
-            {getDaysRemaining(task.due) >= 0 ? (
-              <span className="ml-2 text-green-600 dark:text-green-400">({getDaysRemaining(task.due)} days left)</span>
-            ) : (
-              <span className="ml-2 text-red-600 dark:text-red-400">
-                (Overdue by {Math.abs(getDaysRemaining(task.due))} days)
-              </span>
-            )}
+            <CalendarIcon className="mr-2 h-4 w-4" /> Due:{" "}
+            {task.due ? formatDate(task.due) : "No due date"}
+            {getDaysRemaining(task.due) !== null &&
+              (getDaysRemaining(task.due)! >= 0 ? (
+                <span className="ml-2 text-green-600 dark:text-green-400">({getDaysRemaining(task.due)} days left)</span>
+              ) : (
+                <span className="ml-2 text-red-600 dark:text-red-400">
+                  (Overdue by {Math.abs(getDaysRemaining(task.due)!)} days)
+                </span>
+              ))}
           </div>
           {task.assignedTo && (
             <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
@@ -86,4 +88,3 @@ export default function TaskCard({
     </Card>
   )
 }
-

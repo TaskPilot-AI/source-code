@@ -52,6 +52,36 @@ interface Project {
   updatedAt: Date;
 }
 
+const MILLISECONDS_PER_DAY = 24 * 60 * 60 * 1000;
+
+function getTaskDueDate(deadline: unknown, taskName: string): Date | null {
+  const deadlineText =
+    typeof deadline === "string" ? deadline.trim() : "";
+  const deadlineMatch = deadlineText.match(
+    /^(\d+(?:\.\d+)?)\s*(?:days?)?$/i,
+  );
+  const deadlineDays =
+    typeof deadline === "number"
+      ? deadline
+      : deadlineMatch
+        ? Number(deadlineMatch[1])
+        : Number.NaN;
+
+  const dueDate = new Date(Date.now() + deadlineDays * MILLISECONDS_PER_DAY);
+  if (
+    !Number.isFinite(deadlineDays) ||
+    deadlineDays < 0 ||
+    !Number.isFinite(dueDate.getTime())
+  ) {
+    console.warn(
+      `Invalid deadline for task "${taskName}": expected a non-negative number of days; saving without a due date.`,
+    );
+    return null;
+  }
+
+  return dueDate;
+}
+
 export const createProject = async (
   name: string,
   description: string,
@@ -152,7 +182,7 @@ export const createProject = async (
             createdAt: new Date(),
             updatedAt: new Date(),
             ownerId,
-            due: new Date(Date.now() + task.deadline * 24 * 60 * 60 * 1000),
+            due: getTaskDueDate(task.deadline, task.name),
           },
         });
 
@@ -348,9 +378,7 @@ export async function createFinalProject(
           createdAt: new Date(),
           updatedAt: new Date(),
           ownerId,
-          due: new Date(
-            Date.now() + Number(task.deadline) * 24 * 60 * 60 * 1000,
-          ),
+          due: getTaskDueDate(task.deadline, task.name),
         },
       });
 

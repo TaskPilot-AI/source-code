@@ -31,7 +31,7 @@ Each item in "tasks" contains only:
 - priority: "Low", "Medium", or "High"
 - assigned_to: employee designation
 - required_skills: list of skills available to the employee
-- deadline: string containing the estimated number of days
+- deadline: string containing only the estimated number of days as a number, such as "5" (do not include "days")
 Do not include explanations, analysis, project details, or other keys.
 
 Project details:

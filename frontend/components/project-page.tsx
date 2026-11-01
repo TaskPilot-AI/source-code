@@ -49,7 +49,7 @@ interface Task {
   id: string
   name: string
   description: string
-  due: string
+  due: string | null
   status: string
   priority: string
   tag: string
@@ -139,9 +139,11 @@ export default function ProjectPage({
   }
 
   // Calculate days remaining until due date
-  const getDaysRemaining = (dueDate: string) => {
+  const getDaysRemaining = (dueDate: string | null) => {
+    if (!dueDate) return null
     const today = new Date()
     const due = new Date(dueDate)
+    if (!Number.isFinite(due.getTime())) return null
     const diffTime = due.getTime() - today.getTime()
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
     return diffDays
@@ -494,15 +496,17 @@ export default function ProjectPage({
                         {task.status.replace(/_/g, " ")}
                       </div>
                       <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-                        <CalendarIcon className="mr-2 h-4 w-4" /> Due: {formatDate(task.due)}
-                        {getDaysRemaining(task.due) >= 0 ? (
-                          <span className="ml-2 text-green-600 dark:text-green-400">
-                            ({getDaysRemaining(task.due)} days left)
-                          </span>
-                        ) : (
-                          <span className="ml-2 text-red-600 dark:text-red-400">
-                            (Overdue by {Math.abs(getDaysRemaining(task.due))} days)
-                          </span>
+                        <CalendarIcon className="mr-2 h-4 w-4" /> Due: {task.due ? formatDate(task.due) : "No due date"}
+                        {task.due && getDaysRemaining(task.due) !== null && (
+                          getDaysRemaining(task.due)! >= 0 ? (
+                            <span className="ml-2 text-green-600 dark:text-green-400">
+                              ({getDaysRemaining(task.due)} days left)
+                            </span>
+                          ) : (
+                            <span className="ml-2 text-red-600 dark:text-red-400">
+                              (Overdue by {Math.abs(getDaysRemaining(task.due)!)} days)
+                            </span>
+                          )
                         )}
                       </div>
                       {task.assignedTo && (
@@ -720,4 +724,3 @@ export default function ProjectPage({
     </div>
   )
 }
-
