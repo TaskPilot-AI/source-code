@@ -12,7 +12,7 @@ import { conductResearch } from "@/lib/api";
 interface ResearchFindingsProps {
   projectData: {
     projectName: string;
-    newDefination: string;
+    newdefinition: string;
     keyFeatures: string[];
     document: any;
     researchFindings?: {
@@ -28,7 +28,7 @@ interface ResearchFindingsProps {
     };
   };
   updateProjectData: (
-    data: Partial<ResearchFindingsProps["projectData"]>
+    data: Partial<ResearchFindingsProps["projectData"]>,
   ) => void;
   setIsLoading: (loading: boolean) => void;
   onComplete: () => void;
@@ -50,7 +50,7 @@ export function ResearchFindings({
 
     try {
       // Call the research API
-      const response = await conductResearch(projectData.newDefination);
+      const response = await conductResearch(projectData.newdefinition);
 
       if (response.success) {
         // Add a selected property to each result
@@ -58,7 +58,7 @@ export function ResearchFindings({
           (result: any) => ({
             ...result,
             selected: false,
-          })
+          }),
         );
 
         updateProjectData({
@@ -291,7 +291,7 @@ export function ResearchFindings({
                               <X className="h-4 w-4" />
                             </Button>
                           </li>
-                        )
+                        ),
                       )}
                     </ul>
                   )}

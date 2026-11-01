@@ -44,7 +44,7 @@ export const checkAgentServer = async () => {
   return data;
 };
 
-export const initProject = async (project_name: string, defination: string) => {
+export const initProject = async (project_name: string, definition: string) => {
   const response = await fetch(`${localUrl}init_project`, {
     method: "POST",
     headers: {
@@ -52,21 +52,21 @@ export const initProject = async (project_name: string, defination: string) => {
     },
     body: JSON.stringify({
       project_name,
-      defination,
+      definition,
     }),
   });
   const data = await response.json();
   return data;
 };
 
-export const identifyKeyFeatures = async (defination: string) => {
+export const identifyKeyFeatures = async (definition: string) => {
   const response = await fetch(`${localUrl}identify_key_features`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      defination,
+      definition,
     }),
   });
   const data = await response.json();
@@ -75,8 +75,8 @@ export const identifyKeyFeatures = async (defination: string) => {
 
 export const generateDocument = async (
   project_name: string,
-  defination: string,
-  key_features: string[]
+  definition: string,
+  key_features: string[],
 ) => {
   const response = await fetch(`${localUrl}generate_docs`, {
     method: "POST",
@@ -85,7 +85,7 @@ export const generateDocument = async (
     },
     body: JSON.stringify({
       project_name,
-      defination,
+      definition,
       key_features,
     }),
   });
@@ -95,11 +95,11 @@ export const generateDocument = async (
 
 export const generateTasks = async (
   project_name: string,
-  defination: string,
+  definition: string,
   key_features: string[],
   employees: Employee[],
   development_type: string,
-  complexity: string
+  complexity: string,
 ) => {
   const response = await fetch(`${localUrl}create_tasks`, {
     method: "POST",
@@ -109,7 +109,7 @@ export const generateTasks = async (
     body: JSON.stringify({
       project_name,
       employees,
-      defination,
+      definition,
       development_type,
       complexity,
       key_features,

@@ -20,12 +20,8 @@
         "header": [],
         "url": {
           "raw": "{{baseUrl}}/",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            ""
-          ]
+          "host": ["{{baseUrl}}"],
+          "path": [""]
         },
         "description": "Checks the running Flask service."
       },
@@ -62,7 +58,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"project_name\": \"Task Manager\",\n  \"defination\": \"A responsive application for organizing projects and tasks, with user accounts, task assignment, and progress tracking.\"\n}",
+          "raw": "{\n  \"project_name\": \"Task Manager\",\n  \"definition\": \"A responsive application for organizing projects and tasks, with user accounts, task assignment, and progress tracking.\"\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -71,14 +67,10 @@
         },
         "url": {
           "raw": "{{baseUrl}}/init_project",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "init_project"
-          ]
+          "host": ["{{baseUrl}}"],
+          "path": ["init_project"]
         },
-        "description": "Required JSON fields: project_name (string), defination (string). The spelling defination is part of the current API. Returns the model-generated JSON object; normally it contains new_defination."
+        "description": "Required JSON fields: project_name (string), definition (string). The spelling definition is part of the current API. Returns the model-generated JSON object; normally it contains new_definition."
       },
       "response": [
         {
@@ -93,7 +85,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"project_name\": \"Task Manager\",\n  \"defination\": \"A responsive application for organizing projects and tasks, with user accounts, task assignment, and progress tracking.\"\n}"
+              "raw": "{\n  \"project_name\": \"Task Manager\",\n  \"definition\": \"A responsive application for organizing projects and tasks, with user accounts, task assignment, and progress tracking.\"\n}"
             },
             "url": "{{baseUrl}}/init_project"
           },
@@ -106,7 +98,7 @@
               "value": "application/json"
             }
           ],
-          "body": "{\n  \"new_defination\": \"A task management application that allows users to organize projects, assign tasks, and track progress.\"\n}"
+          "body": "{\n  \"new_definition\": \"A task management application that allows users to organize projects, assign tasks, and track progress.\"\n}"
         },
         {
           "name": "400 - missing required field",
@@ -133,7 +125,7 @@
               "value": "application/json"
             }
           ],
-          "body": "{\n  \"error\": \"Missing parameters: defination\"\n}"
+          "body": "{\n  \"error\": \"Missing parameters: definition\"\n}"
         }
       ]
     },
@@ -149,7 +141,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"defination\": \"A responsive application for organizing projects and tasks, with user accounts, task assignment, and progress tracking.\"\n}",
+          "raw": "{\n  \"definition\": \"A responsive application for organizing projects and tasks, with user accounts, task assignment, and progress tracking.\"\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -158,14 +150,10 @@
         },
         "url": {
           "raw": "{{baseUrl}}/identify_key_features",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "identify_key_features"
-          ]
+          "host": ["{{baseUrl}}"],
+          "path": ["identify_key_features"]
         },
-        "description": "Required JSON field: defination (string). Returns key_features as an array of strings."
+        "description": "Required JSON field: definition (string). Returns key_features as an array of strings."
       },
       "response": [
         {
@@ -180,7 +168,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"defination\": \"A responsive application for organizing projects and tasks, with user accounts, task assignment, and progress tracking.\"\n}"
+              "raw": "{\n  \"definition\": \"A responsive application for organizing projects and tasks, with user accounts, task assignment, and progress tracking.\"\n}"
             },
             "url": "{{baseUrl}}/identify_key_features"
           },
@@ -209,7 +197,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"project_name\": \"Task Manager\",\n  \"defination\": \"A responsive application for organizing projects and tasks, with user accounts, task assignment, and progress tracking.\",\n  \"key_features\": [\n    \"User authentication\",\n    \"Project and task management\",\n    \"Task assignment\",\n    \"Progress tracking\",\n    \"Responsive design\"\n  ]\n}",
+          "raw": "{\n  \"project_name\": \"Task Manager\",\n  \"definition\": \"A responsive application for organizing projects and tasks, with user accounts, task assignment, and progress tracking.\",\n  \"key_features\": [\n    \"User authentication\",\n    \"Project and task management\",\n    \"Task assignment\",\n    \"Progress tracking\",\n    \"Responsive design\"\n  ]\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -218,14 +206,10 @@
         },
         "url": {
           "raw": "{{baseUrl}}/generate_docs",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "generate_docs"
-          ]
+          "host": ["{{baseUrl}}"],
+          "path": ["generate_docs"]
         },
-        "description": "The Flask route requires defination (string) and key_features (array of strings). The backend client also sends project_name, although this route does not use or require it. Returns doc_name, doc_desc, doc_body, use_case_diagram, and er_diagram."
+        "description": "The Flask route requires definition (string) and key_features (array of strings). The backend client also sends project_name, although this route does not use or require it. Returns doc_name, doc_desc, doc_body, use_case_diagram, and er_diagram."
       },
       "response": [
         {
@@ -240,7 +224,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"project_name\": \"Task Manager\",\n  \"defination\": \"A responsive application for organizing projects and tasks, with user accounts, task assignment, and progress tracking.\",\n  \"key_features\": [\"User authentication\", \"Project and task management\", \"Task assignment\", \"Progress tracking\", \"Responsive design\"]\n}"
+              "raw": "{\n  \"project_name\": \"Task Manager\",\n  \"definition\": \"A responsive application for organizing projects and tasks, with user accounts, task assignment, and progress tracking.\",\n  \"key_features\": [\"User authentication\", \"Project and task management\", \"Task assignment\", \"Progress tracking\", \"Responsive design\"]\n}"
             },
             "url": "{{baseUrl}}/generate_docs"
           },
@@ -269,7 +253,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"project_name\": \"Task Manager\",\n  \"defination\": \"A responsive application for organizing projects and tasks, with user accounts, task assignment, and progress tracking.\",\n  \"key_features\": [\n    \"User authentication\",\n    \"Project and task management\",\n    \"Task assignment\",\n    \"Progress tracking\",\n    \"Responsive design\"\n  ],\n  \"employees\": [\n    {\n      \"name\": \"Alex Developer\",\n      \"designation\": \"Backend Developer\",\n      \"skillset\": [\"Python\", \"FastAPI\", \"PostgreSQL\"]\n    }\n  ],\n  \"development_type\": \"Web application\",\n  \"complexity\": \"Medium\"\n}",
+          "raw": "{\n  \"project_name\": \"Task Manager\",\n  \"definition\": \"A responsive application for organizing projects and tasks, with user accounts, task assignment, and progress tracking.\",\n  \"key_features\": [\n    \"User authentication\",\n    \"Project and task management\",\n    \"Task assignment\",\n    \"Progress tracking\",\n    \"Responsive design\"\n  ],\n  \"employees\": [\n    {\n      \"name\": \"Alex Developer\",\n      \"designation\": \"Backend Developer\",\n      \"skillset\": [\"Python\", \"FastAPI\", \"PostgreSQL\"]\n    }\n  ],\n  \"development_type\": \"Web application\",\n  \"complexity\": \"Medium\"\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -278,14 +262,10 @@
         },
         "url": {
           "raw": "{{baseUrl}}/create_tasks",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "create_tasks"
-          ]
+          "host": ["{{baseUrl}}"],
+          "path": ["create_tasks"]
         },
-        "description": "The Flask route requires defination (string) and key_features (array). The request shown matches the backend client fields: project_name, employees (name, designation, skillset), defination, development_type, complexity, and key_features. The generator also reads optional description and timeline fields, which the current backend client does not send."
+        "description": "The Flask route requires definition (string) and key_features (array). The request shown matches the backend client fields: project_name, employees (name, designation, skillset), definition, development_type, complexity, and key_features. The generator also reads optional description and timeline fields, which the current backend client does not send."
       },
       "response": [
         {
@@ -300,7 +280,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"project_name\": \"Task Manager\",\n  \"defination\": \"A responsive application for organizing projects and tasks, with user accounts, task assignment, and progress tracking.\",\n  \"key_features\": [\"User authentication\", \"Project and task management\"],\n  \"employees\": [{\"name\": \"Alex Developer\", \"designation\": \"Backend Developer\", \"skillset\": [\"Python\", \"FastAPI\", \"PostgreSQL\"]}],\n  \"development_type\": \"Web application\",\n  \"complexity\": \"Medium\"\n}"
+              "raw": "{\n  \"project_name\": \"Task Manager\",\n  \"definition\": \"A responsive application for organizing projects and tasks, with user accounts, task assignment, and progress tracking.\",\n  \"key_features\": [\"User authentication\", \"Project and task management\"],\n  \"employees\": [{\"name\": \"Alex Developer\", \"designation\": \"Backend Developer\", \"skillset\": [\"Python\", \"FastAPI\", \"PostgreSQL\"]}],\n  \"development_type\": \"Web application\",\n  \"complexity\": \"Medium\"\n}"
             },
             "url": "{{baseUrl}}/create_tasks"
           },
@@ -338,12 +318,8 @@
         },
         "url": {
           "raw": "{{baseUrl}}/pipeline",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "pipeline"
-          ]
+          "host": ["{{baseUrl}}"],
+          "path": ["pipeline"]
         },
         "description": "This matches the payload constructed by backend/src/services/project.service.ts. The backend calls POST /pipeline, but the Dockerfile starts app.py, which does not define /pipeline; this request currently returns 404 against the deployed service. main.py defines the route and responds with name, description, doc_body, tasks, er_diagram, and use_case_diagram. That route reads definition (not description) for diagrams, while the backend currently sends description."
       },

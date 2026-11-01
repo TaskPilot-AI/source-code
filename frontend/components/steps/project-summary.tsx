@@ -30,7 +30,7 @@ import { useEffect } from "react";
 interface ProjectSummaryProps {
   projectData: {
     projectName: string;
-    newDefination: string;
+    newdefinition: string;
     keyFeatures: string[];
     document: any;
     selectedTeamMembers: any[];
@@ -56,7 +56,7 @@ export function ProjectSummary({ projectData }: ProjectSummaryProps) {
   // Calculate project timeline
   const startDate = new Date();
   const endDate = new Date(
-    startDate.getTime() + projectData.projectDuration * 24 * 60 * 60 * 1000
+    startDate.getTime() + projectData.projectDuration * 24 * 60 * 60 * 1000,
   );
 
   return (
@@ -99,7 +99,7 @@ export function ProjectSummary({ projectData }: ProjectSummaryProps) {
               Project Definition
             </h3>
             <p className="pl-4 border-l-2 border-slate-400 dark:border-slate-600 leading-relaxed">
-              {projectData.newDefination}
+              {projectData.newdefinition}
             </p>
           </div>
 

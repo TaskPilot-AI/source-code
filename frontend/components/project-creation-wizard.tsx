@@ -42,8 +42,8 @@ export function ProjectCreationWizard() {
   const [teamMembers, setTeamMembers] = useState<any[]>([]);
   const [projectData, setProjectData] = useState({
     projectName: "",
-    defination: "",
-    newDefination: "",
+    definition: "",
+    newdefinition: "",
     keyFeatures: [] as string[],
     document: null as any,
     selectedTeamMembers: [] as any[],
@@ -118,13 +118,13 @@ export function ProjectCreationWizard() {
         },
         body: JSON.stringify({
           projectName: projectData.projectName,
-          defination: projectData.defination,
+          definition: projectData.definition,
           selectedTeamMembers: projectData.selectedTeamMembers,
           document: projectData.document,
           tasks: projectData.tasks,
           projectDuration: projectData.projectDuration,
           ownerId: localStorage.getItem("adminId"),
-          newDefination: projectData.newDefination,
+          newdefinition: projectData.newdefinition,
         }),
       });
 
@@ -192,7 +192,7 @@ export function ProjectCreationWizard() {
       } else {
         console.error("Error creating project:", err);
         setError(
-          err instanceof Error ? err.message : "Failed to create project"
+          err instanceof Error ? err.message : "Failed to create project",
         );
         toast({
           title: "Error",
@@ -210,7 +210,7 @@ export function ProjectCreationWizard() {
     if (currentStep < STEPS.length - 1) {
       if (
         currentStep === 0 &&
-        (!projectData.projectName || !projectData.newDefination)
+        (!projectData.projectName || !projectData.newdefinition)
       ) {
         toast({
           title: "Missing Information",
@@ -424,7 +424,7 @@ export function ProjectCreationWizard() {
                   disabled={
                     (currentStep === 0 &&
                       (!projectData.projectName ||
-                        !projectData.newDefination)) ||
+                        !projectData.newdefinition)) ||
                     (currentStep === 1 &&
                       (!projectData.keyFeatures ||
                         projectData.keyFeatures.length === 0)) ||

@@ -13,7 +13,7 @@ import { identifyKeyFeatures } from "@/lib/api";
 interface KeyFeaturesProps {
   projectData: {
     projectName: string;
-    newDefination: string;
+    newdefinition: string;
     keyFeatures: string[];
   };
   updateProjectData: (data: Partial<KeyFeaturesProps["projectData"]>) => void;
@@ -39,7 +39,7 @@ export function KeyFeatures({
     setError(null);
 
     try {
-      const response = await identifyKeyFeatures(projectData.newDefination);
+      const response = await identifyKeyFeatures(projectData.newdefinition);
 
       if (response.success) {
         updateProjectData({
@@ -91,7 +91,7 @@ export function KeyFeatures({
             </Label>
             <div className="p-4 border rounded-md bg-slate-50 dark:bg-slate-900/50">
               <p className="text-sm leading-relaxed">
-                {projectData.newDefination}
+                {projectData.newdefinition}
               </p>
             </div>
           </div>

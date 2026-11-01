@@ -1,8 +1,0 @@
-services:
-  agents-service:
-      build: .
-      container_name: agents-service-app
-      environment:
-        - GOOGLE_API_KEY=${GOOGLE_API_KEY}
-      ports:
-        - "5000:5000"

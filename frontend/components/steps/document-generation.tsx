@@ -20,12 +20,12 @@ import remarkGfm from "remark-gfm";
 interface DocumentGenerationProps {
   projectData: {
     projectName: string;
-    newDefination: string;
+    newdefinition: string;
     keyFeatures: string[];
     document: any;
   };
   updateProjectData: (
-    data: Partial<DocumentGenerationProps["projectData"]>
+    data: Partial<DocumentGenerationProps["projectData"]>,
   ) => void;
   setIsLoading: (loading: boolean) => void;
   onComplete: () => void;
@@ -81,8 +81,8 @@ export function DocumentGeneration({
     try {
       const response = await generateDocument(
         projectData.projectName,
-        projectData.newDefination,
-        projectData.keyFeatures
+        projectData.newdefinition,
+        projectData.keyFeatures,
       );
 
       if (response.success) {
@@ -117,7 +117,7 @@ export function DocumentGeneration({
                     content: [
                       {
                         subsection: "Description",
-                        content: projectData.newDefination,
+                        content: projectData.newdefinition,
                       },
                       {
                         subsection: "Key Features",
@@ -327,7 +327,7 @@ export function DocumentGeneration({
                         Project Definition
                       </h4>
                       <p className="pl-4 border-l-2 border-slate-300 dark:border-slate-600 leading-relaxed">
-                        {projectData.newDefination}
+                        {projectData.newdefinition}
                       </p>
                     </div>
                     <div>
@@ -421,7 +421,7 @@ export function DocumentGeneration({
                 <CardContent className="max-h-[500px] overflow-y-auto pr-6">
                   {Array.isArray(projectData.document.doc_body) ? (
                     projectData.document.doc_body.map((section: any) =>
-                      renderDocumentSection(section)
+                      renderDocumentSection(section),
                     )
                   ) : (
                     <div className="flex flex-col items-center justify-center py-8 text-center">
@@ -436,7 +436,7 @@ export function DocumentGeneration({
                           content: [
                             {
                               subsection: "Description",
-                              content: projectData.newDefination,
+                              content: projectData.newdefinition,
                             },
                             {
                               subsection: "Key Features",
@@ -444,7 +444,7 @@ export function DocumentGeneration({
                                 (feature) => ({
                                   subsubsection: "",
                                   content: feature,
-                                })
+                                }),
                               ),
                             },
                           ],

@@ -40,7 +40,7 @@ import { useToast } from "@/hooks/use-toast";
 interface TaskGenerationProps {
   projectData: {
     projectName: string;
-    newDefination: string;
+    newdefinition: string;
     keyFeatures: string[];
     selectedTeamMembers: any[];
     projectDuration: number;
@@ -49,12 +49,12 @@ interface TaskGenerationProps {
   updateProjectData: (
     data: Partial<{
       projectName: string;
-      newDefination: string;
+      newdefinition: string;
       keyFeatures: string[];
       selectedTeamMembers: any[];
       projectDuration: number;
       tasks: any[];
-    }>
+    }>,
   ) => void;
   setIsLoading: (loading: boolean) => void;
   onComplete: () => void;
@@ -100,17 +100,19 @@ export function TaskGeneration({
     try {
       const response = await generateTasks(
         projectData.projectName,
-        projectData.newDefination,
+        projectData.newdefinition,
         projectData.keyFeatures,
         complexity,
-        developmentType
+        developmentType,
       );
 
       if (response.success) {
         const tasks = response.data.tasks.map((task: any) => {
           const teamMember =
             projectData.selectedTeamMembers.find((member) =>
-              member.role.toLowerCase().includes(task.assigned_to.toLowerCase())
+              member.role
+                .toLowerCase()
+                .includes(task.assigned_to.toLowerCase()),
             ) || projectData.selectedTeamMembers[0];
 
           return {
@@ -164,7 +166,7 @@ export function TaskGeneration({
     }
 
     const teamMember = projectData.selectedTeamMembers.find(
-      (member) => member.id === newTask.assigned_to
+      (member) => member.id === newTask.assigned_to,
     );
 
     if (!teamMember) {
@@ -530,7 +532,7 @@ export function TaskGeneration({
                                     >
                                       {skill}
                                     </Badge>
-                                  )
+                                  ),
                                 )}
                               </div>
                             )}

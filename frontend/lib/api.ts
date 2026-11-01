@@ -27,7 +27,7 @@ const handleApiError = (response: Response) => {
 
 export async function initializeProject(
   projectName: string,
-  definition: string
+  definition: string,
 ) {
   try {
     const response = await fetch(`${API_URL}/projects/init-project`, {
@@ -39,7 +39,7 @@ export async function initializeProject(
       },
       body: JSON.stringify({
         project_name: projectName,
-        defination: definition,
+        definition: definition,
       }),
     });
 
@@ -81,7 +81,7 @@ export async function identifyKeyFeatures(definition: string) {
         Authorization: `Authorization ${localStorage.getItem("accessToken")}`,
       },
       body: JSON.stringify({
-        defination: definition,
+        definition: definition,
       }),
     });
 
@@ -96,7 +96,7 @@ export async function identifyKeyFeatures(definition: string) {
 export async function generateDocument(
   projectName: string,
   definition: string,
-  keyFeatures: string[]
+  keyFeatures: string[],
 ) {
   try {
     const response = await fetch(`${API_URL}/projects/generate-document`, {
@@ -108,7 +108,7 @@ export async function generateDocument(
       },
       body: JSON.stringify({
         project_name: projectName,
-        defination: definition,
+        definition: definition,
         key_features: keyFeatures,
       }),
     });
@@ -126,7 +126,7 @@ export async function generateTasks(
   definition: string,
   keyFeatures: string[],
   complexity = "medium",
-  developmentType = "Web Application"
+  developmentType = "Web Application",
 ) {
   try {
     // Get admin ID from localStorage
@@ -142,7 +142,7 @@ export async function generateTasks(
           "Content-Type": "application/json",
           Authorization: `Authorization ${localStorage.getItem("accessToken")}`,
         },
-      }
+      },
     );
 
     handleApiError(employeesResponse);
@@ -168,7 +168,7 @@ export async function generateTasks(
       body: JSON.stringify({
         project_name: projectName,
         employees: employees,
-        defination: definition,
+        definition: definition,
         development_type: developmentType,
         complexity: complexity,
         key_features: keyFeatures,

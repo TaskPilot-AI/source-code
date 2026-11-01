@@ -22,7 +22,7 @@ import {
 
 export const createProjectController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     const validatedData = CreateProjectSchema.parse(req.body);
@@ -33,7 +33,7 @@ export const createProjectController = async (
       validatedData.complexity,
       validatedData.ownerId,
       validatedData.timeEstimate,
-      validatedData.key_features
+      validatedData.key_features,
     );
 
     res.status(201).json({
@@ -52,44 +52,44 @@ export const createProjectController = async (
 
 export const createFinalProjectController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     const {
       projectName,
-      defination,
+      definition,
       selectedTeamMembers,
       document,
       tasks,
       projectDuration,
-      newDefination,
+      newdefinition,
       ownerId,
     } = req.body;
 
     if (
       !projectName ||
-      !defination ||
+      !definition ||
       !selectedTeamMembers ||
       !document ||
       !tasks ||
       !projectDuration ||
-      !newDefination ||
+      !newdefinition ||
       !ownerId
     ) {
       throw new Error(
-        "Project name, defination, selectedTeamMembers, document, tasks, projectDuration, newDefination and ownerId are required"
+        "Project name, definition, selectedTeamMembers, document, tasks, projectDuration, newdefinition and ownerId are required",
       );
     }
 
     const projects = await createFinalProject(
-      defination,
+      definition,
       projectName,
       selectedTeamMembers,
       document,
       tasks,
       projectDuration,
-      newDefination,
-      ownerId
+      newdefinition,
+      ownerId,
     );
     res.status(201).json({
       success: true,
@@ -107,16 +107,16 @@ export const createFinalProjectController = async (
 
 export const initProjectController = async (req: Request, res: Response) => {
   try {
-    var { project_name, defination } = req.body;
+    var { project_name, definition } = req.body;
 
-    if (!project_name || !defination) {
-      throw new Error("Project name and defination are required");
+    if (!project_name || !definition) {
+      throw new Error("Project name and definition are required");
     }
 
-    const projects = await initProject(project_name, defination);
+    const projects = await initProject(project_name, definition);
     res.status(200).json({
       success: true,
-      message: "Project defination initialized successfully",
+      message: "Project definition initialized successfully",
       data: projects,
     });
   } catch (error) {
@@ -130,19 +130,19 @@ export const initProjectController = async (req: Request, res: Response) => {
 
 export const generateDocumentController = async (
   req: Request,
-  res: Response
+  res: Response,
 ) => {
   try {
-    var { project_name, defination, key_features } = req.body;
+    var { project_name, definition, key_features } = req.body;
 
-    if (!project_name || !defination || !key_features) {
-      throw new Error("Project name, defination and key_features are required");
+    if (!project_name || !definition || !key_features) {
+      throw new Error("Project name, definition and key_features are required");
     }
 
     const projects = await generateDocument(
       project_name,
-      defination,
-      key_features
+      definition,
+      key_features,
     );
     res.status(200).json({
       success: true,
@@ -162,7 +162,7 @@ export const generateTasksController = async (req: Request, res: Response) => {
   try {
     var {
       project_name,
-      defination,
+      definition,
       key_features,
       employees,
       development_type,
@@ -171,24 +171,24 @@ export const generateTasksController = async (req: Request, res: Response) => {
 
     if (
       !project_name ||
-      !defination ||
+      !definition ||
       !key_features ||
       !employees ||
       !development_type ||
       !complexity
     ) {
       throw new Error(
-        "Project name, defination, key_features, employees, development_type and complexity are required"
+        "Project name, definition, key_features, employees, development_type and complexity are required",
       );
     }
 
     const projects = await generateTasks(
       project_name,
-      defination,
+      definition,
       key_features,
       employees,
       development_type,
-      complexity
+      complexity,
     );
     res.status(200).json({
       success: true,
@@ -206,16 +206,16 @@ export const generateTasksController = async (req: Request, res: Response) => {
 
 export const identifyKeyFeaturesController = async (
   req: Request,
-  res: Response
+  res: Response,
 ) => {
   try {
-    var { defination } = req.body;
+    var { definition } = req.body;
 
-    if (!defination) {
+    if (!definition) {
       throw new Error("Project name is required");
     }
 
-    const projects = await identifyKeyFeatures(defination);
+    const projects = await identifyKeyFeatures(definition);
     res.status(200).json({
       success: true,
       message: "Key features identified successfully",
@@ -232,7 +232,7 @@ export const identifyKeyFeaturesController = async (
 
 export const getProjectsController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     const projects = await getProjects(req.params.ownerId!);
@@ -252,7 +252,7 @@ export const getProjectsController = async (
 
 export const getDashboardDataFun = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     const projects = await getDashboardData(req.params.ownerId!);
@@ -272,7 +272,7 @@ export const getDashboardDataFun = async (
 
 export const updateProjectController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     var { name, description, ownerId } = req.body;
@@ -288,7 +288,7 @@ export const updateProjectController = async (
       req.params.projectId!,
       name,
       ownerId,
-      description ?? ""
+      description ?? "",
     );
     res.status(200).json({
       success: true,
@@ -306,7 +306,7 @@ export const updateProjectController = async (
 
 export const getProjectController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     const project = await getSingleProject(req.params.projectId!);
@@ -326,7 +326,7 @@ export const getProjectController = async (
 
 export const deleteProjectController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     await deleteProject(req.params.projectId!);
@@ -345,7 +345,7 @@ export const deleteProjectController = async (
 
 export const addDocumentToProjectController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     await addDocumentToProject(req.body.projectId, req.body.documentId);
@@ -364,7 +364,7 @@ export const addDocumentToProjectController = async (
 
 export const removeDocumentFromProjectController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     await removeDocumentFromProject(req.body.projectId, req.body.documentId);
@@ -383,7 +383,7 @@ export const removeDocumentFromProjectController = async (
 
 export const addTaskToProjectController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     await addTaskToProject(req.body.projectId, req.body.taskId);
@@ -402,7 +402,7 @@ export const addTaskToProjectController = async (
 
 export const removeTaskFromProjectController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     await removeTaskFromProject(req.body.projectId, req.body.taskId);

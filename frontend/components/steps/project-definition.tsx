@@ -13,11 +13,11 @@ import { initializeProject } from "@/lib/api";
 interface ProjectDefinitionProps {
   projectData: {
     projectName: string;
-    defination: string;
-    newDefination: string;
+    definition: string;
+    newdefinition: string;
   };
   updateProjectData: (
-    data: Partial<ProjectDefinitionProps["projectData"]>
+    data: Partial<ProjectDefinitionProps["projectData"]>,
   ) => void;
   setIsLoading: (loading: boolean) => void;
   onComplete: () => void;
@@ -35,7 +35,7 @@ export function ProjectDefinition({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!projectData.projectName || !projectData.defination) {
+    if (!projectData.projectName || !projectData.definition) {
       setError("Please provide both project name and definition");
       return;
     }
@@ -49,12 +49,12 @@ export function ProjectDefinition({
     try {
       const response = await initializeProject(
         projectData.projectName,
-        projectData.defination
+        projectData.definition,
       );
 
       if (response.success) {
         updateProjectData({
-          newDefination: response.data.new_defination,
+          newdefinition: response.data.new_definition,
         });
       } else {
         setError(response.message || "Failed to initialize project");
@@ -96,15 +96,15 @@ export function ProjectDefinition({
 
       <div className="space-y-2">
         <Label
-          htmlFor="defination"
+          htmlFor="definition"
           className="text-base font-medium bg-gradient-to-r from-slate-800 to-slate-500 bg-clip-text text-transparent dark:from-slate-100 dark:to-slate-400"
         >
           Project Definition
         </Label>
         <Textarea
-          id="defination"
-          value={projectData.defination}
-          onChange={(e) => updateProjectData({ defination: e.target.value })}
+          id="definition"
+          value={projectData.definition}
+          onChange={(e) => updateProjectData({ definition: e.target.value })}
           placeholder="Describe your project in detail..."
           rows={5}
           required
@@ -117,7 +117,7 @@ export function ProjectDefinition({
         </p>
       </div>
 
-      {projectData.newDefination && (
+      {projectData.newdefinition && (
         <div className="space-y-2 p-6 border rounded-md bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-800">
           <div className="flex justify-between items-center mb-3">
             <Label className="text-base font-medium bg-gradient-to-r from-slate-800 to-slate-500 bg-clip-text text-transparent dark:from-slate-100 dark:to-slate-400">
@@ -127,7 +127,7 @@ export function ProjectDefinition({
               type="button"
               variant="ghost"
               size="sm"
-              onClick={() => updateProjectData({ newDefination: "" })}
+              onClick={() => updateProjectData({ newdefinition: "" })}
               disabled={isSubmitting} // Disable regenerate button during submission
             >
               <RefreshCw className="h-4 w-4 mr-2" />
@@ -135,9 +135,9 @@ export function ProjectDefinition({
             </Button>
           </div>
           <Textarea
-            value={projectData.newDefination}
+            value={projectData.newdefinition}
             onChange={(e) =>
-              updateProjectData({ newDefination: e.target.value })
+              updateProjectData({ newdefinition: e.target.value })
             }
             rows={6}
             className="resize-y min-h-[150px] bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-700"
@@ -159,7 +159,7 @@ export function ProjectDefinition({
         </div>
       )}
 
-      {!projectData.newDefination && (
+      {!projectData.newdefinition && (
         <Button
           type="submit"
           className="w-full h-11 bg-slate-800 hover:bg-slate-700 text-white dark:bg-slate-700 dark:hover:bg-slate-600"

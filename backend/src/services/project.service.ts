@@ -59,7 +59,7 @@ export const createProject = async (
   complexity: string,
   ownerId: string,
   timeEstimate: number,
-  key_features: string[]
+  key_features: string[],
 ) => {
   const admin = await prisma.admin.findFirst({
     where: { id: ownerId },
@@ -113,7 +113,7 @@ export const createProject = async (
   if (!agentResponse) {
     return Error("No response from agents");
   }
-  
+
   if (
     agentResponse.description &&
     agentResponse.doc_body &&
@@ -157,7 +157,7 @@ export const createProject = async (
         });
 
         return { task: createdTask, roleNeeded: task.assigned_to };
-      })
+      }),
     );
 
     // await assignTasksToEmployees(
@@ -211,14 +211,14 @@ interface SubsubsectionContent {
   subsubsection: string;
 }
 export async function createFinalProject(
-  defination: string,
+  definition: string,
   projectName: string,
   selectedTeamMembers: SelectedEmployee[],
   document: SoftwareRequirementsSpecification,
   tasks: AssignedTask[],
   projectDuration: number,
-  newDefination: string,
-  ownerId: string
+  newdefinition: string,
+  ownerId: string,
 ) {
   const admin = await prisma.admin.findFirst({
     where: { id: ownerId },
@@ -262,12 +262,12 @@ export async function createFinalProject(
   const choosenEmployees = employees.filter((employee: Employee) => {
     return selectedTeamMembers.some(
       (selectedEmployee: SelectedEmployee) =>
-        selectedEmployee.id === employee.id
+        selectedEmployee.id === employee.id,
     );
   });
   // const createRepoRes = await createRepo(
   //   projectName,
-  //   defination,
+  //   definition,
   //   admin.accessToken
   // );
 
@@ -276,7 +276,7 @@ export async function createFinalProject(
   const project: Project = await prisma.project.create({
     data: {
       name: projectName,
-      description: newDefination,
+      description: newdefinition,
       projectType: "web",
       complexity: "Medium",
       completionStatus: "NOT_STARTED",
@@ -349,7 +349,7 @@ export async function createFinalProject(
           updatedAt: new Date(),
           ownerId,
           due: new Date(
-            Date.now() + Number(task.deadline) * 24 * 60 * 60 * 1000
+            Date.now() + Number(task.deadline) * 24 * 60 * 60 * 1000,
           ),
         },
       });
@@ -369,7 +369,7 @@ export async function createFinalProject(
         priority: task.priority,
         required_skills: task.required_skills,
       };
-    })
+    }),
   );
 
   if (createdTasks.length === 0) {
@@ -400,7 +400,7 @@ export async function createFinalProject(
     "owner",
     "repoName",
     admin.accessToken,
-    createdTasks
+    createdTasks,
   );
 
   return project;
@@ -422,7 +422,7 @@ async function assignTasksToEmployees(
     name: string;
     priority: string;
     required_skills?: string[];
-  }>
+  }>,
 ) {
   // Create a map of employees by ID for quick lookup
   const employeesById = employees.reduce(
@@ -430,7 +430,7 @@ async function assignTasksToEmployees(
       map[employee.id] = employee;
       return map;
     },
-    {} as Record<string, Employee>
+    {} as Record<string, Employee>,
   );
 
   // Create a map of tasks by name for matching with assigned tasks
@@ -439,7 +439,7 @@ async function assignTasksToEmployees(
       map[task.name] = task;
       return map;
     },
-    {} as Record<string, Task>
+    {} as Record<string, Task>,
   );
 
   // Process each assigned task
@@ -454,7 +454,7 @@ async function assignTasksToEmployees(
 
     if (!employeeToAssign) {
       console.error(
-        `Employee with ID "${assignedTask.assigned_to_id}" not found`
+        `Employee with ID "${assignedTask.assigned_to_id}" not found`,
       );
       continue;
     }
@@ -488,7 +488,7 @@ async function assignTasksToEmployees(
     } catch (error) {
       console.error(
         `Error assigning task "${taskToAssign.name}" to employee ${employeeToAssign.name}:`,
-        error
+        error,
       );
     }
   }
@@ -520,7 +520,7 @@ export const getProjects = async (ownerId: string) => {
   return projects.map((project: any) => {
     const totalTasks = project.tasks.length;
     const completedTasks = project.tasks.filter(
-      (task: any) => task.status === "DONE"
+      (task: any) => task.status === "DONE",
     ).length;
 
     let statusColor = "";
@@ -623,11 +623,11 @@ export const getDashboardData = async (ownerId: string) => {
     }
 
     const completedTasks = projectTasks.filter(
-      (task: Task) => task.status === "DONE"
+      (task: Task) => task.status === "DONE",
     ).length;
     const overdueTasks = projectTasks.filter(
       (task: Task) =>
-        task.status !== "DONE" && task.due && new Date(task.due) < new Date()
+        task.status !== "DONE" && task.due && new Date(task.due) < new Date(),
     ).length;
 
     const progress =
@@ -652,13 +652,13 @@ export const getDashboardData = async (ownerId: string) => {
   });
 
   const onTrackProjects = projectHealthStatuses.filter(
-    (p: any) => p.status === "ON_TRACK"
+    (p: any) => p.status === "ON_TRACK",
   ).length;
   const needsAttentionProjects = projectHealthStatuses.filter(
-    (p: any) => p.status === "NEEDS_ATTENTION"
+    (p: any) => p.status === "NEEDS_ATTENTION",
   ).length;
   const completedProjects = projectHealthStatuses.filter(
-    (p: any) => p.status === "COMPLETED"
+    (p: any) => p.status === "COMPLETED",
   ).length;
 
   let overallHealth = "Good";
@@ -689,15 +689,15 @@ export const getDashboardData = async (ownerId: string) => {
   const totalTasks = tasks.length;
   const totalEmployees = employees.length; // Note: This might need adjustment
   const tasksCompleted = tasks.filter(
-    (task: Task) => task.status === "DONE"
+    (task: Task) => task.status === "DONE",
   ).length;
   const active = projects.filter(
-    (project: Project) => project.completionStatus === "IN_PROGRESS"
+    (project: Project) => project.completionStatus === "IN_PROGRESS",
   ).length;
   const pendingTasks = tasks.filter((task: Task) =>
     ["ASSIGNED", "IN_PROGRESS", "REVIEW", "BACKLOG", "TODO"].includes(
-      task.status
-    )
+      task.status,
+    ),
   );
 
   return {
@@ -716,7 +716,7 @@ export const updateProject = async (
   projectId: string,
   name: string,
   ownerId: string,
-  description: string
+  description: string,
 ) => {
   const temp = await prisma.project.findFirst({
     where: { id: projectId, ownerId },
@@ -817,7 +817,7 @@ export const deleteProject = async (projectId: string) => {
 
 export const addEmployeeToProject = async (
   projectId: string,
-  employeeId: string
+  employeeId: string,
 ) => {
   const temp = await prisma.project.findFirst({
     where: { id: projectId },
@@ -835,7 +835,7 @@ export const addEmployeeToProject = async (
 
 export const removeEmployeeFromProject = async (
   projectId: string,
-  employeeId: string
+  employeeId: string,
 ) => {
   const temp = await prisma.project.findFirst({
     where: { id: projectId },
@@ -853,7 +853,7 @@ export const removeEmployeeFromProject = async (
 
 export const addDocumentToProject = async (
   projectId: string,
-  documentId: string
+  documentId: string,
 ) => {
   const temp = await prisma.project.findUnique({
     where: { id: projectId },
@@ -871,7 +871,7 @@ export const addDocumentToProject = async (
 
 export const removeDocumentFromProject = async (
   projectId: string,
-  documentId: string
+  documentId: string,
 ) => {
   const temp = await prisma.project.findUnique({
     where: { id: projectId },
@@ -904,7 +904,7 @@ export const addTaskToProject = async (projectId: string, taskId: string) => {
 
 export const removeTaskFromProject = async (
   projectId: string,
-  taskId: string
+  taskId: string,
 ) => {
   const temp = await prisma.project.findFirst({
     where: { id: projectId },
