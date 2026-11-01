@@ -1,4 +1,5 @@
 import json
+import os
 import time
 from agents import *
 from .models.gemini.interface import init_gemini
@@ -264,6 +265,9 @@ def generate_documentation(defination, key_features):
     result = result[start_idx:end_idx]
 
     # result = '{"' + defination + "}"
+
+    if not os.path.exists('./docs'):
+        os.makedirs('./docs')
 
     with open("./docs/generate_docs.md", "w") as f:
         f.write(result)

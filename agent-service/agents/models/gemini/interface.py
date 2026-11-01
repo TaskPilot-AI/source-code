@@ -21,7 +21,7 @@ else:
 
 
 def init_gemini(temperature=1):
-    model_name = os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
+    model_name = "gemini-3.5-flash-lite"
     gemini = GoogleGenerativeAI(
         model=model_name,
         temperature=temperature,

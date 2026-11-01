@@ -1,0 +1,382 @@
+{
+  "info": {
+    "_postman_id": "c1d965fd-bbab-4e98-8c82-ef68ed09cf8d",
+    "name": "Taskpilot Agent Service",
+    "description": "Requests and example responses for the Flask agent service. Set baseUrl to the service URL. The /pipeline request is called by the backend but is not exposed by the current Docker entrypoint (app.py); it is only defined in main.py.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            ""
+          ]
+        },
+        "description": "Checks the running Flask service."
+      },
+      "response": [
+        {
+          "name": "200 - service is running",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/"
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"message\": \"Welcome to the AgentX Service!\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Initialize project definition",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"project_name\": \"Task Manager\",\n  \"defination\": \"A responsive application for organizing projects and tasks, with user accounts, task assignment, and progress tracking.\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/init_project",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "init_project"
+          ]
+        },
+        "description": "Required JSON fields: project_name (string), defination (string). The spelling defination is part of the current API. Returns the model-generated JSON object; normally it contains new_defination."
+      },
+      "response": [
+        {
+          "name": "200 - initialized definition",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"project_name\": \"Task Manager\",\n  \"defination\": \"A responsive application for organizing projects and tasks, with user accounts, task assignment, and progress tracking.\"\n}"
+            },
+            "url": "{{baseUrl}}/init_project"
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"new_defination\": \"A task management application that allows users to organize projects, assign tasks, and track progress.\"\n}"
+        },
+        {
+          "name": "400 - missing required field",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"project_name\": \"Task Manager\"\n}"
+            },
+            "url": "{{baseUrl}}/init_project"
+          },
+          "status": "BAD REQUEST",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"Missing parameters: defination\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Identify key features",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"defination\": \"A responsive application for organizing projects and tasks, with user accounts, task assignment, and progress tracking.\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/identify_key_features",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "identify_key_features"
+          ]
+        },
+        "description": "Required JSON field: defination (string). Returns key_features as an array of strings."
+      },
+      "response": [
+        {
+          "name": "200 - features identified",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"defination\": \"A responsive application for organizing projects and tasks, with user accounts, task assignment, and progress tracking.\"\n}"
+            },
+            "url": "{{baseUrl}}/identify_key_features"
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"key_features\": [\n    \"User authentication\",\n    \"Project and task management\",\n    \"Task assignment\",\n    \"Progress tracking\",\n    \"Responsive design\"\n  ]\n}"
+        }
+      ]
+    },
+    {
+      "name": "Generate documentation",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"project_name\": \"Task Manager\",\n  \"defination\": \"A responsive application for organizing projects and tasks, with user accounts, task assignment, and progress tracking.\",\n  \"key_features\": [\n    \"User authentication\",\n    \"Project and task management\",\n    \"Task assignment\",\n    \"Progress tracking\",\n    \"Responsive design\"\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/generate_docs",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "generate_docs"
+          ]
+        },
+        "description": "The Flask route requires defination (string) and key_features (array of strings). The backend client also sends project_name, although this route does not use or require it. Returns doc_name, doc_desc, doc_body, use_case_diagram, and er_diagram."
+      },
+      "response": [
+        {
+          "name": "200 - documentation generated",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"project_name\": \"Task Manager\",\n  \"defination\": \"A responsive application for organizing projects and tasks, with user accounts, task assignment, and progress tracking.\",\n  \"key_features\": [\"User authentication\", \"Project and task management\", \"Task assignment\", \"Progress tracking\", \"Responsive design\"]\n}"
+            },
+            "url": "{{baseUrl}}/generate_docs"
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"doc_name\": \"Software Requirements Specification\",\n  \"doc_desc\": \"Requirements for the Task Manager application.\",\n  \"doc_body\": [\n    {\n      \"section\": \"1. Introduction\",\n      \"content\": [\n        {\n          \"subsection\": \"1.1 Purpose\",\n          \"content\": \"Describe the purpose of the application.\"\n        }\n      ]\n    }\n  ],\n  \"use_case_diagram\": \"graph TD\\nUser --> ManageTasks\",\n  \"er_diagram\": \"erDiagram\\nUSER ||--o{ TASK : creates\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Create tasks",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"project_name\": \"Task Manager\",\n  \"defination\": \"A responsive application for organizing projects and tasks, with user accounts, task assignment, and progress tracking.\",\n  \"key_features\": [\n    \"User authentication\",\n    \"Project and task management\",\n    \"Task assignment\",\n    \"Progress tracking\",\n    \"Responsive design\"\n  ],\n  \"employees\": [\n    {\n      \"name\": \"Alex Developer\",\n      \"designation\": \"Backend Developer\",\n      \"skillset\": [\"Python\", \"FastAPI\", \"PostgreSQL\"]\n    }\n  ],\n  \"development_type\": \"Web application\",\n  \"complexity\": \"Medium\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/create_tasks",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "create_tasks"
+          ]
+        },
+        "description": "The Flask route requires defination (string) and key_features (array). The request shown matches the backend client fields: project_name, employees (name, designation, skillset), defination, development_type, complexity, and key_features. The generator also reads optional description and timeline fields, which the current backend client does not send."
+      },
+      "response": [
+        {
+          "name": "200 - tasks generated",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"project_name\": \"Task Manager\",\n  \"defination\": \"A responsive application for organizing projects and tasks, with user accounts, task assignment, and progress tracking.\",\n  \"key_features\": [\"User authentication\", \"Project and task management\"],\n  \"employees\": [{\"name\": \"Alex Developer\", \"designation\": \"Backend Developer\", \"skillset\": [\"Python\", \"FastAPI\", \"PostgreSQL\"]}],\n  \"development_type\": \"Web application\",\n  \"complexity\": \"Medium\"\n}"
+            },
+            "url": "{{baseUrl}}/create_tasks"
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"tasks\": [\n    {\n      \"name\": \"Implement task API\",\n      \"desc\": \"Create task management endpoints using FastAPI and PostgreSQL.\",\n      \"priority\": \"High\",\n      \"assigned_to\": \"Backend Developer\",\n      \"required_skills\": [\"Python\", \"FastAPI\"],\n      \"deadline\": \"3\"\n    }\n  ]\n}"
+        }
+      ]
+    },
+    {
+      "name": "Pipeline (called by backend; not served by current app)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"project_name\": \"Task Manager\",\n  \"employees\": [\n    {\n      \"name\": \"Alex Developer\",\n      \"designation\": \"Backend Developer\",\n      \"skillset\": [\"Python\", \"FastAPI\", \"PostgreSQL\"]\n    }\n  ],\n  \"description\": \"A responsive application for organizing projects and tasks, with user accounts, task assignment, and progress tracking.\",\n  \"development_type\": \"Web application\",\n  \"response_type\": \"json\",\n  \"complexity\": \"Medium\",\n  \"timeline\": 30,\n  \"key_features\": [\n    \"User authentication\",\n    \"Project and task management\",\n    \"Task assignment\",\n    \"Progress tracking\",\n    \"Responsive design\"\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/pipeline",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pipeline"
+          ]
+        },
+        "description": "This matches the payload constructed by backend/src/services/project.service.ts. The backend calls POST /pipeline, but the Dockerfile starts app.py, which does not define /pipeline; this request currently returns 404 against the deployed service. main.py defines the route and responds with name, description, doc_body, tasks, er_diagram, and use_case_diagram. That route reads definition (not description) for diagrams, while the backend currently sends description."
+      },
+      "response": [
+        {
+          "name": "Expected 200 if main.py pipeline is served",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"project_name\": \"Task Manager\",\n  \"employees\": [{\"name\": \"Alex Developer\", \"designation\": \"Backend Developer\", \"skillset\": [\"Python\", \"FastAPI\", \"PostgreSQL\"]}],\n  \"description\": \"A responsive application for organizing projects and tasks.\",\n  \"development_type\": \"Web application\",\n  \"response_type\": \"json\",\n  \"complexity\": \"Medium\",\n  \"timeline\": 30,\n  \"key_features\": [\"User authentication\", \"Task assignment\"]\n}"
+            },
+            "url": "{{baseUrl}}/pipeline"
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"name\": \"Software Requirements Specification\",\n  \"description\": \"Requirements for the Task Manager application.\",\n  \"doc_body\": {\n    \"goals\": [],\n    \"functional_requirements\": [],\n    \"non_functional_requirements\": [],\n    \"technical_requirements\": [],\n    \"stakeholder_requirements\": {}\n  },\n  \"tasks\": [\n    {\n      \"name\": \"Implement task API\",\n      \"desc\": \"Create task management endpoints using FastAPI and PostgreSQL.\",\n      \"priority\": \"High\",\n      \"assigned_to\": \"Backend Developer\",\n      \"required_skills\": [\"Python\", \"FastAPI\"],\n      \"deadline\": \"3\"\n    }\n  ],\n  \"er_diagram\": \"erDiagram\\nUSER ||--o{ TASK : creates\",\n  \"use_case_diagram\": \"graph TD\\nUser --> ManageTasks\"\n}",
+          "cookie": []
+        }
+      ]
+    }
+  ]
+}
